@@ -1,0 +1,24 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <h1>FORMULARIO INICIAR SESIÓN</h1>
+
+  <!-- FORMULARIO DE LOGIN -->
+  <form [formGroup]="formLogin" (ngSubmit)="iniciarSesion()">
+    <ion-item>
+      <ion-input formControlName="user" label="Usuario" labelPlacement="floating" placeholder="Ingrese usuario"></ion-input>
+    </ion-item>
+
+    <br>
+
+    <ion-item>
+      <ion-input formControlName="password" label="Contraseña" type="password" labelPlacement="floating" placeholder="Ingrese contraseña">
+        <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+      </ion-input>
+    </ion-item>
+
+    <br>
+
+    <ion-button type="submit" expand="block" shape="round" color="primary">Iniciar Sesión</ion-button>
+
+  </form>
+</ion-content>
