@@ -1,24 +1,55 @@
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-header class="auth-header">
+  <ion-toolbar color="primary" class="auth-toolbar">
+    <ion-title class="ion-text-center">Autenticación</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <h1>FORMULARIO INICIAR SESIÓN</h1>
+<ion-content [fullscreen]="true">
+  <div class="login-container">
+    <ion-card class="login-card">
 
-  <!-- FORMULARIO DE LOGIN -->
-  <form [formGroup]="formLogin" (ngSubmit)="iniciarSesion()">
-    <ion-item>
-      <ion-input formControlName="user" label="Usuario" labelPlacement="floating" placeholder="Ingrese usuario"></ion-input>
-    </ion-item>
+      <div class="img-box">
+        <div class="img-frame">
+          <img src="assets/icon/person.png" class="login-img" alt="Usuario" />
+        </div>
+      </div>
 
-    <br>
+      <div class="form-header">
+        <h2>Bienvenido</h2>
+        <p>Ingresa tus credenciales para continuar</p>
+      </div>
 
-    <ion-item>
-      <ion-input formControlName="password" label="Contraseña" type="password" labelPlacement="floating" placeholder="Ingrese contraseña">
-        <ion-input-password-toggle slot="end"></ion-input-password-toggle>
-      </ion-input>
-    </ion-item>
+      <form [formGroup]="formLogin" (ngSubmit)="iniciarSesion()" class="login-form">
 
-    <br>
+        <ion-item lines="none" class="custom-item">
+          <ion-input
+            formControlName="user"
+            label="Usuario"
+            labelPlacement="stacked"
+            placeholder="Escribe tu usuario">
+          </ion-input>
+        </ion-item>
 
-    <ion-button type="submit" expand="block" shape="round" color="primary">Iniciar Sesión</ion-button>
+        <ion-item lines="none" class="custom-item">
+          <ion-input
+            formControlName="password"
+            type="password"
+            label="Contraseña"
+            labelPlacement="stacked"
+            placeholder="Escribe tu contraseña">
+            <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+          </ion-input>
+        </ion-item>
 
-  </form>
+        <ion-button type="submit" expand="block" shape="round" class="login-button">
+          Iniciar sesión
+        </ion-button>
+      </form>
+
+    </ion-card>
+
+    <div class="bottom-brand">
+      <img src="assets/icon/login.png" class="brand-logo" alt="Eventos Universitarios" />
+    </div>
+  </div>
 </ion-content>

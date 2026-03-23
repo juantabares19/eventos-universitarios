@@ -1,0 +1,180 @@
+/* Fondo general */
+ion-content {
+  --background: #f6f6f5b3;
+}
+
+/* Evita cortes cuando aparece el teclado */
+ion-content::part(scroll) {
+  padding-bottom: 40px;
+}
+
+/* Header */
+.auth-toolbar {
+  --background: linear-gradient(90deg, #2f3fae, #4a62f0);
+  --min-height: 58px;
+  box-shadow: 0 2px 10px rgba(50, 76, 219, 0.22);
+}
+
+ion-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+/* Contenedor principal */
+.login-container {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 16px 18px;
+  box-sizing: border-box;
+}
+
+/* Card */
+.login-card {
+  width: 100%;
+  max-width: 360px;
+  margin: 0;
+  padding: 22px 18px 20px;
+  border-radius: 24px;
+  background: rgba(249, 250, 252, 0.72);
+  box-shadow:
+    0 10px 28px rgba(50, 76, 219, 0.16),
+    0 2px 8px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(74, 98, 240, 0.08);
+}
+
+/* Imagen superior */
+.img-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.img-frame {
+  width: 132px;
+  height: 132px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+    180deg,
+    rgba(74, 98, 240, 0.10),
+    rgba(47, 63, 174, 0.04)
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    0 6px 18px rgba(50, 76, 219, 0.10);
+}
+
+.login-img {
+  width: 92px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Encabezado del formulario */
+.form-header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.form-header h2 {
+  margin: 0 0 4px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #24327d;
+}
+
+.form-header p {
+  margin: 0;
+  font-size: 0.92rem;
+  color: rgba(36, 50, 125, 0.72);
+}
+
+/* Formulario */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Inputs */
+.custom-item {
+  --background: rgba(255, 255, 255, 0.55);
+  --border-radius: 14px;
+  --padding-start: 12px;
+  --inner-padding-end: 12px;
+  --min-height: 64px;
+  border: 1px solid rgba(74, 98, 240, 0.10);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+ion-input {
+  --color: #1f2d6b;
+  --placeholder-color: rgba(31, 45, 107, 0.45);
+  --highlight-color-focused: #4a62f0;
+}
+
+ion-input::part(label) {
+  color: #2f3fae;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+/* Botón */
+.login-button {
+  margin-top: 6px;
+  height: 46px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: none;
+  --border-radius: 999px;
+  --background: linear-gradient(90deg, #2f3fae, #4a62f0);
+  --box-shadow: 0 8px 18px rgba(63, 81, 181, 0.28);
+}
+
+/* Logo inferior */
+.bottom-brand {
+  margin-top: 22px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.brand-logo {
+  width: 68%;
+  max-width: 245px;
+  min-width: 155px;
+  height: auto;
+  display: block;
+  opacity: 0.96;
+}
+
+/* Ajuste escritorio */
+@media (min-width: 768px) {
+  .login-card {
+    max-width: 390px;
+    padding: 24px 20px 22px;
+  }
+
+  .img-frame {
+    width: 140px;
+    height: 140px;
+  }
+
+  .login-img {
+    width: 100px;
+  }
+
+  .brand-logo {
+    max-width: 260px;
+  }
+}
