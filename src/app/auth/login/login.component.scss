@@ -1,6 +1,6 @@
 /* Fondo general */
 ion-content {
-  --background: #f6f6f5b3;
+    --background: url('/assets/img/fondoLogin.png') no-repeat center center / cover;
 }
 
 /* Evita cortes cuando aparece el teclado */
@@ -13,12 +13,6 @@ ion-content::part(scroll) {
   --background: linear-gradient(90deg, #2f3fae, #4a62f0);
   --min-height: 58px;
   box-shadow: 0 2px 10px rgba(50, 76, 219, 0.22);
-}
-
-ion-title {
-  font-size: 1.2rem;
-  font-weight: 700;
-  letter-spacing: 0.2px;
 }
 
 /* Contenedor principal */
@@ -39,7 +33,7 @@ ion-title {
   margin: 0;
   padding: 22px 18px 20px;
   border-radius: 24px;
-  background: rgba(249, 250, 252, 0.72);
+  background: rgba(249, 250, 252, 0.878);
   box-shadow:
     0 10px 28px rgba(50, 76, 219, 0.16),
     0 2px 8px rgba(0, 0, 0, 0.05);
@@ -64,8 +58,8 @@ ion-title {
   align-items: center;
   background: linear-gradient(
     180deg,
-    rgba(74, 98, 240, 0.10),
-    rgba(47, 63, 174, 0.04)
+    rgba(1, 13, 78, 0.4),
+    rgba(248, 110, 5, 0.36)
   );
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.65),
@@ -141,21 +135,22 @@ ion-input::part(label) {
   --box-shadow: 0 8px 18px rgba(63, 81, 181, 0.28);
 }
 
-/* Logo inferior */
-.bottom-brand {
-  margin-top: 22px;
-  display: flex;
-  justify-content: center;
-  width: 100%;
+/* Registrar */
+.register-container {
+  text-align: center;
+  margin-top: 16px;
+  color: #666; 
 }
 
-.brand-logo {
-  width: 68%;
-  max-width: 245px;
-  min-width: 155px;
-  height: auto;
-  display: block;
-  opacity: 0.96;
+.register-link {
+  margin-left: 6px;
+  color: #666;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.register-link:hover {
+  color: #007bff; 
 }
 
 /* Ajuste escritorio */

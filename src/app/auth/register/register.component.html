@@ -1,3 +1,64 @@
-<p>
-  register works!
-</p>
+<ion-header class="auth-header">
+  <ion-toolbar color="primary" class="auth-toolbar">
+    <ion-title class="ion-text-center">Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="register-container">
+    <div class="register-card">
+
+      <div class="form-header">
+        <h2 >Crear cuenta</h2>
+        <p>Completa los datos para registrarte</p>
+      </div>
+
+      <form class="register-form">
+        <ion-item lines="none" class="custom-item">
+          <ion-input
+            label="Nombre completo"
+            labelPlacement="stacked"
+            type="text"
+            placeholder="Ingresa tu nombre"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item lines="none" class="custom-item">
+          <ion-input
+            label="Correo electrónico"
+            labelPlacement="stacked"
+            type="email"
+            placeholder="Ingresa tu correo"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item lines="none" class="custom-item">
+          <ion-input
+            label="Contraseña"
+            labelPlacement="stacked"
+            type="password"
+            placeholder="Ingresa tu contraseña"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item lines="none" class="custom-item">
+          <ion-input
+            label="Confirmar contraseña"
+            labelPlacement="stacked"
+            type="password"
+            placeholder="Confirma tu contraseña"
+          ></ion-input>
+        </ion-item>
+
+        <ion-button expand="block" class="register-button">
+          Registrarse
+        </ion-button>
+
+        <div class="login-container-link">
+          <span>¿Ya tienes cuenta?</span>
+          <a routerLink="/login" class="login-link">Inicia sesión</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</ion-content>

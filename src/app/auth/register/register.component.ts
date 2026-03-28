@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -8,8 +9,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterComponent  implements OnInit {
 
-  constructor() { }
+  formRegister!: FormGroup;
 
-  ngOnInit() {}
+  constructor(
+    private ar : FormBuilder
+  ) { }
+
+  ngOnInit() {
+    this.formRegister = this.ar.group({
+      user: [''],
+      email: [''],
+      password: [''],
+      ConfirmPassword: ['']
+    });
+  }
+
+  registrar() {
+  const data = this.formRegister.value;
+
+  if (data.password !== data.confirmPassword) {
+    console.log('Las contraseñas no coinciden');
+    return;
+  }
+
+  console.log(data);
+}
 
 }
