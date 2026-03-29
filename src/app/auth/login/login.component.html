@@ -23,12 +23,15 @@
 
         <ion-item lines="none" class="custom-item">
           <ion-input
-            formControlName="user"
-            label="Usuario"
+            formControlName="correo"
+            label="Correo"
             labelPlacement="stacked"
-            placeholder="Escribe tu usuario">
+            placeholder="Escribe tu correo">
           </ion-input>
         </ion-item>
+        <ion-text color="danger" *ngIf="formLogin.get('correo')?.invalid && formLogin.get('correo')?.touched">
+          Correo institucional inválido
+        </ion-text>
 
         <ion-item lines="none" class="custom-item">
           <ion-input
@@ -48,8 +51,9 @@
       
       <div class="register-container">
         <span>¿No tienes cuenta?</span>
-        <a routerLink="/register" class="register-link">Regístrate</a>
+        <a routerLink="/auth/register" class="register-link">Regístrate</a>
       </div>
+
    </ion-card>
   </div>
 </ion-content>
