@@ -15,7 +15,7 @@ export class EventosComponent implements OnInit {
   categoriaSeleccionada: string = 'Todos';
   cargando: boolean = true;
 
-  categorias: string[] = ['Todos', 'Académico', 'Cultural', 'Deportes'];
+  categorias: string[] = ['Todos', 'Académico', 'Cultural', 'Deportes', 'Tecnología', 'Otro'];
 
   constructor(
     private eventosService: EventosService,

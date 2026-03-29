@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { StorageService } from 'src/app/services/storage.service';
+import { AuthService } from 'src/app/services/auth.service'; // Asegúrate de que esta ruta sea correcta
 
 @Component({
   selector: 'app-register',
@@ -12,62 +13,45 @@ import { StorageService } from 'src/app/services/storage.service';
 })
 export class RegisterComponent implements OnInit {
 
-  //Formulario reactivo para el registro
   formRegister!: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private toastCtrl: ToastController,
     private router: Router,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private authService: AuthService // Inyectamos el servicio
   ) {}
 
-  //Campos obligatorios y validación de formato para el correo
   ngOnInit(): void {
     this.formRegister = this.fb.group({
       nombre: ['', [Validators.required]],
       correo: ['', [
-      Validators.required,
-      Validators.pattern(/^[a-zA-Z0-9._%+-]+@(miremington\.edu\.co|uniremington\.edu\.co)$/)
-    ]],
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9._%+-]+@(miremington\.edu\.co|uniremington\.edu\.co)$/)
+      ]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]]
     });
   }
 
-  //Método para registrar un nuevo usuario
   async registrar(): Promise<void> {
-
-    //validar que el formulario esté completo y correcto
     if (this.formRegister.invalid) {
       this.formRegister.markAllAsTouched();
-      await this._showToastMsg('Completa todos los campos');
+      await this._showToastMsg('Completa todos los campos correctamente');
       return;
     }
-    //Obtener los valores del formulario
+
     const { nombre, correo, password, confirmPassword } = this.formRegister.value;
 
-    // Validar que ambas contraseñas coincidan
     if (password !== confirmPassword) {
       await this._showToastMsg('Las contraseñas no coinciden');
       return;
     }
 
     try {
-      // Verificar si ya existe un usuario con este correo
-      const existingUser = await this.storageService.findUserByEmail(correo);
-      
-      // Si el usuario ya existe, mostrar mensaje de error
-      if (existingUser) {
-        await this._showToastMsg('El correo ya está registrado');
-        this.formRegister.reset(); 
-        return;
-      }
-
-      // Hash de contraseña 
       const passwordHash = await this.sha256(password);
       
-      // Crear un nuevo usuario con los datos del formulario
       const newUser = {
         id: crypto.randomUUID(),
         nombre,
@@ -76,21 +60,29 @@ export class RegisterComponent implements OnInit {
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
       };
-      // Guardar el nuevo usuario en el almacenamiento local
-      await this.storageService.addUser(newUser);
-      
-      // Mostrar mensaje de éxito y redirigir al login
-      await this._showToastMsg('Usuario registrado correctamente');
-      this.formRegister.reset();
-      this.router.navigate(['/auth/login']);
 
+      // --- CAMBIO HÍBRIDO ---
+      // 1. Intentamos registrar en el Backend (SQLite)
+      this.authService.postRegister(newUser).subscribe({
+        next: async (res: any) => {
+          // 2. Si el backend responde OK, guardamos en Storage local
+          await this.storageService.addUser(newUser);
+          await this._showToastMsg('Usuario registrado correctamente en la nube');
+          this.formRegister.reset();
+          this.router.navigate(['/auth/login']);
+        },
+        error: async (err) => {
+          console.error(err);
+          await this._showToastMsg('El correo ya existe o hubo un error en el servidor');
+        }
+      });
       
     } catch (error) {
       console.error(error);
-      await this._showToastMsg('Error al registrar usuario');
+      await this._showToastMsg('Error al procesar el registro');
     }
   }
-  // Método para generar un hash SHA-256 de la contraseña
+
   private async sha256(text: string): Promise<string> {
     const encoder = new TextEncoder();
     const data = encoder.encode(text);
@@ -98,7 +90,7 @@ export class RegisterComponent implements OnInit {
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
   }
-  // Método privado para mostrar mensajes de toast
+
   private async _showToastMsg(message: string): Promise<void> {
     const toast = await this.toastCtrl.create({
       message,

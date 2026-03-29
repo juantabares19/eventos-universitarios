@@ -15,6 +15,10 @@ const routes: Routes = [
     redirectTo: 'auth/login',
     pathMatch: 'full'
   },
+  {
+    path: '**',
+    redirectTo: 'auth/login' // Si la ruta no existe, vuelve al Login
+  }
 
 ];
 

@@ -1,14 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { EventosComponent } from './eventos/eventos.component';
-import { EventDetailComponent } from './event-detail/event-detail.component';
+import { EventDetailComponent } from './eventos/event-detail/event-detail.component';
+
 
 const routes: Routes = [
-  {
-    path: 'dashboard',
-    component: DashboardComponent
-  },
   {
     path: 'eventos',
     component: EventosComponent
