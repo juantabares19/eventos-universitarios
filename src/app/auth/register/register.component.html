@@ -13,52 +13,64 @@
         <p>Completa los datos para registrarte</p>
       </div>
 
-      <form class="register-form">
-        <ion-item lines="none" class="custom-item">
-          <ion-input
-            label="Nombre completo"
-            labelPlacement="stacked"
-            type="text"
-            placeholder="Ingresa tu nombre"
-          ></ion-input>
-        </ion-item>
+      <form class="register-form" [formGroup]="formRegister" (ngSubmit)="registrar()">
 
-        <ion-item lines="none" class="custom-item">
-          <ion-input
-            label="Correo electrónico"
-            labelPlacement="stacked"
-            type="email"
-            placeholder="Ingresa tu correo"
-          ></ion-input>
-        </ion-item>
+  <ion-item lines="none" class="custom-item">
+    <ion-input
+      label="Nombre completo"
+      labelPlacement="stacked"
+      type="text"
+      placeholder="Ingresa tu nombre"
+      formControlName="nombre"
+    ></ion-input>
+  </ion-item>
 
-        <ion-item lines="none" class="custom-item">
-          <ion-input
-            label="Contraseña"
-            labelPlacement="stacked"
-            type="password"
-            placeholder="Ingresa tu contraseña"
-          ></ion-input>
-        </ion-item>
+  <ion-item lines="none" class="custom-item">
+    <ion-input
+      label="Correo electrónico"
+      labelPlacement="stacked"
+      type="email"
+      placeholder="Ingresa tu correo"
+      formControlName="correo"
+    ></ion-input>
+  </ion-item>
+  <ion-text color="danger" *ngIf="formRegister.get('correo')?.invalid && formRegister.get('correo')?.touched">
+  Correo institucional inválido
+</ion-text>
 
-        <ion-item lines="none" class="custom-item">
-          <ion-input
-            label="Confirmar contraseña"
-            labelPlacement="stacked"
-            type="password"
-            placeholder="Confirma tu contraseña"
-          ></ion-input>
-        </ion-item>
+  <ion-item lines="none" class="custom-item">
+    <ion-input
+      label="Contraseña"
+      labelPlacement="stacked"
+      type="password"
+      placeholder="Ingresa tu contraseña"
+      formControlName="password"
+    ></ion-input>
+  </ion-item>
 
-        <ion-button expand="block" class="register-button">
-          Registrarse
-        </ion-button>
+  <ion-item lines="none" class="custom-item">
+    <ion-input
+      label="Confirmar contraseña"
+      labelPlacement="stacked"
+      type="password"
+      placeholder="Confirma tu contraseña"
+      formControlName="confirmPassword"
+    ></ion-input>
+  </ion-item>
 
-        <div class="login-container-link">
-          <span>¿Ya tienes cuenta?</span>
-          <a routerLink="/login" class="login-link">Inicia sesión</a>
-        </div>
-      </form>
+  <ion-button expand="block" class="register-button" type="submit">
+    Registrarse
+  </ion-button>
+
+  <div class="login-container-link">
+    <span>¿Ya tienes cuenta?</span>
+    <a routerLink="/login" class="login-link">Inicia sesión</a>
+  </div>
+  
+
+</form>
     </div>
   </div>
+  
+
 </ion-content>
