@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './auth/auth-module';
 import { PagesModule } from './pages/pages-module';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { IonicStorageModule } from '@ionic/storage-angular'; // Importar el módulo de almacenamiento de Ionic
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,7 +19,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     AppRoutingModule, 
     AuthModule,
     PagesModule,
-    HttpClientModule
+    HttpClientModule,
+    IonicStorageModule.forRoot() // Configurar el módulo de almacenamiento de Ionic
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-login',
@@ -9,45 +10,93 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./login.component.scss'],
   standalone: false
 })
-export class LoginComponent  implements OnInit {
-
+export class LoginComponent implements OnInit {
+  //Formulario reactivo para el login
   formLogin!: FormGroup;
-
+  
+  //Inyectar dependencias necesarias
   constructor(
     private fb: FormBuilder,
     private toastCtrl: ToastController,
-    private router: Router
-  ) { }
-
-  ngOnInit() {
+    private router: Router,
+    private storageService: StorageService
+  ) {}
+  
+  //Inicializar el formulario con validaciones
+  ngOnInit(): void {
     this.formLogin = this.fb.group({
-      user: ['', Validators.required, Validators.minLength(5)],
-      password: ['', Validators.required]
+      correo: ['', [
+    Validators.required,
+    Validators.pattern(/^[a-zA-Z0-9._%+-]+@(miremington\.edu\.co|uniremington\.edu\.co)$/)
+  ]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
-  // Método para iniciar sesión
-  iniciarSesion() {
-    console.log('Datos del formulario de inicio de sesión:');
+   //Método para iniciar sesión
+  async iniciarSesion(): Promise<void> {
 
-      if (this.formLogin.invalid) {
-        this._showToastMsg();
+    // Validar que el formulario esté completo y correcto
+    if (this.formLogin.invalid) {
+      this.formLogin.markAllAsTouched();
+      await this._showToastMsg('Completa correctamente los campos');
+      return;
+    }
+    // Obtener los valores del formulario
+    const { correo, password } = this.formLogin.value;
+
+    // Intentar iniciar sesión con el correo y contraseña proporcionados
+    try {
+      const user = await this.storageService.findUserByEmail(correo);
+
+      // Si el usuario no existe, mostrar mensaje de error
+      if (!user) {
+        await this._showToastMsg('El usuario no existe');
         return;
       }
+      // Generar el hash de la contraseña ingresada para compararlo con el almacenado
+      const passwordHash = await this.sha256(password);
 
-      //TODO: Servicio para validar login
+      // Si el hash de la contraseña no coincide, mostrar mensaje de error
+      if (user.password_hash !== passwordHash) {
+        await this._showToastMsg('Usuario o contraseña incorrectos');
+        return;
+      }
       
-      
-      //Redireccionar al dashboard
-      this.router.navigate(['/pages/dashboard']); 
+      // Si el inicio de sesión es exitoso, guardar la sesión y redirigir al dashboard
+      await this.storageService.setSession({
+        id: user.id,
+        nombre: user.nombre,
+        correo: user.correo
+      });
+       // Limpiar el formulario, mostrar mensaje de bienvenida y redirigir al dashboard
+      this.formLogin.reset();
+      await this._showToastMsg(`Bienvenida, ${user.nombre}`);
+      this.router.navigate(['/pages/dashboard']);
+
+      //mostrar errores en consola y mensaje de error al usuario
+    } catch (error) {
+      console.error('Error al iniciar sesión:', error);
+      await this._showToastMsg('Ocurrió un error al iniciar sesión');
+    }
   }
 
-  //Metodos Privados
-  private async _showToastMsg(){
+  // Método para generar un hash SHA-256 de la contraseña
+  private async sha256(text: string): Promise<string> {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(text);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+    // Método privado para mostrar mensajes de toast
+  private async _showToastMsg(message: string): Promise<void> {
     const toast = await this.toastCtrl.create({
-      message: 'Usuario o contraseña incorrectos',
-      duration: 3000
+      message,
+      duration: 3000,
+      position: 'top',
     });
-    await toast.present();  
+    await toast.present();
   }
 }
