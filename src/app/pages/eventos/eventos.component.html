@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Eventos Universitarios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- Filtros por categoría -->
+  <div class="categorias-container">
+    <ion-chip
+      *ngFor="let categoria of categorias"
+      [color]="categoriaSeleccionada === categoria ? 'primary' : 'medium'"
+      (click)="filtrarPorCategoria(categoria)">
+      {{ categoria }}
+    </ion-chip>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="cargando" class="loading-container">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p>Cargando eventos...</p>
+  </div>
+
+  <!-- Sin eventos -->
+  <div *ngIf="!cargando && eventosFiltrados.length === 0" class="empty-container">
+    <ion-icon name="calendar-outline" size="large" color="medium"></ion-icon>
+    <p>No hay eventos disponibles</p>
+  </div>
+
+  <!-- Lista de eventos -->
+  <ion-list *ngIf="!cargando && eventosFiltrados.length > 0">
+    <ion-card *ngFor="let evento of eventosFiltrados" class="evento-card">
+
+      <ion-card-header>
+        <ion-chip [color]="getColorCategoria(evento.categoria)" class="categoria-chip">
+          {{ evento.categoria }}
+        </ion-chip>
+        <ion-card-title>{{ evento.titulo }}</ion-card-title>
+        <ion-card-subtitle>{{ evento.organizador }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p>{{ evento.descripcion }}</p>
+
+        <div class="evento-info">
+          <div class="info-item">
+            <ion-icon name="calendar-outline" color="primary"></ion-icon>
+            <span>{{ evento.fecha }}</span>
+          </div>
+          <div class="info-item">
+            <ion-icon name="time-outline" color="primary"></ion-icon>
+            <span>{{ evento.hora }}</span>
+          </div>
+          <div class="info-item">
+            <ion-icon name="location-outline" color="primary"></ion-icon>
+            <span>{{ evento.lugar }}</span>
+          </div>
+          <div class="info-item">
+            <ion-icon name="people-outline" color="primary"></ion-icon>
+            <span>{{ evento.cupos_disponibles }} cupos disponibles</span>
+          </div>
+        </div>
+      </ion-card-content>
+
+    </ion-card>
+  </ion-list>
+
+</ion-content>
