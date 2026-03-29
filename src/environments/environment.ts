@@ -3,8 +3,13 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  //Variable para desarrollo local
+  apiKeyNews: '6e4e8764cd23467b8857e43a6a11b429',
+  urlNews: 'https://newsapi.org/v2/everything'
 };
+
+
 
 /*
  * For easier debugging in development mode, you can import the following file
