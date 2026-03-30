@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
           await this._showToastMsg(`¡Bienvenido, ${user.nombre}!`);
           
           // CORRECCIÓN: redirige a eventos, no a dashboard
-          this.router.navigate(['/pages/eventos']);
+          this.router.navigate(['/pages/tabs/eventos']);
         },
         error: async (err) => {
           console.error('Error login:', err);
