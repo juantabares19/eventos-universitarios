@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { PagesRoutingModule } from './pages-routing-module';
 import { IonicModule } from '@ionic/angular';
 import { EventosComponent } from './eventos/eventos.component';
@@ -8,6 +8,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { EventDetailComponent } from './event-detail/event-detail.component';
+import { MyEventsComponent } from './my-events/my-events.component';
 
 @NgModule({
   declarations: [
@@ -16,12 +17,14 @@ import { EventDetailComponent } from './event-detail/event-detail.component';
     TabsComponent,
     CalendarComponent,
     FavoritesComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    MyEventsComponent
   ],
   imports: [
     CommonModule,
     PagesRoutingModule,
-    IonicModule
+    IonicModule,
+    DatePipe
   ]
 })
 export class PagesModule { }

@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Mis Eventos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- Loading -->
+  <div *ngIf="cargando" class="loading-container">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p>Cargando tus eventos...</p>
+  </div>
+
+  <!-- Sin inscripciones -->
+  <div *ngIf="!cargando && inscripciones.length === 0" class="empty-container">
+    <ion-icon name="ticket-outline" size="large"></ion-icon>
+    <h3>No tienes eventos inscritos</h3>
+    <p>Explora los eventos disponibles e inscríbete</p>
+    <ion-button shape="round" routerLink="/pages/tabs/eventos">
+      Ver eventos
+    </ion-button>
+  </div>
+
+  <!-- Lista de inscripciones -->
+  <ion-list *ngIf="!cargando && inscripciones.length > 0">
+    <ion-card
+      *ngFor="let inscripcion of inscripciones"
+      class="inscripcion-card"
+      (click)="verDetalle(inscripcion.evento_id)">
+
+      <ion-card-header>
+        <ion-chip color="success" class="estado-chip">
+          <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+          Inscrito
+        </ion-chip>
+        <ion-card-title>{{ inscripcion.titulo }}</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="info-item">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <span>{{ inscripcion.fecha }}</span>
+        </div>
+        <div class="info-item">
+          <ion-icon name="time-outline"></ion-icon>
+          <span>{{ inscripcion.hora }}</span>
+        </div>
+        <div class="info-item">
+          <ion-icon name="location-outline"></ion-icon>
+          <span>{{ inscripcion.lugar }}</span>
+        </div>
+        <div class="info-item">
+          <ion-icon name="pricetag-outline"></ion-icon>
+          <span>{{ inscripcion.categoria }}</span>
+        </div>
+        <div class="info-item">
+          <ion-icon name="time-outline"></ion-icon>
+          <span>Inscrito el {{ inscripcion.fecha_inscripcion | date:'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+      </ion-card-content>
+
+    </ion-card>
+  </ion-list>
+
+</ion-content>

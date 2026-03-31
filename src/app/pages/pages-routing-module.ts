@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsComponent } from './tabs/tabs.component';
 import { EventosComponent } from './eventos/eventos.component';
-
 import { CalendarComponent } from './calendar/calendar.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { EventDetailComponent } from './event-detail/event-detail.component';
+import { MyEventsComponent } from './my-events/my-events.component';
 
 const routes: Routes = [
   {
@@ -16,6 +16,7 @@ const routes: Routes = [
       { path: 'eventos', component: EventosComponent },
       { path: 'calendar', component: CalendarComponent },
       { path: 'favorites', component: FavoritesComponent },
+      { path: 'my-events', component: MyEventsComponent },
       { path: 'notifications', component: NotificationsComponent },
       { path: '', redirectTo: 'eventos', pathMatch: 'full' }
     ]

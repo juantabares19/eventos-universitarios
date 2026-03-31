@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EventosService, Evento } from 'src/app/services/eventos.service';
 import { ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-eventos',
@@ -19,7 +20,9 @@ export class EventosComponent implements OnInit {
 
   constructor(
     private eventosService: EventosService,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private router: Router
+    
   ) {}
 
   ngOnInit() {
@@ -61,6 +64,11 @@ export class EventosComponent implements OnInit {
       'Otro': 'warning'
     };
     return colores[categoria] || 'medium';
+  }
+
+  verDetallesEvento(evento: Evento) {
+  console.log('ID evento:', evento.id); // para probar
+  this.router.navigate(['/pages/event-detail', evento.id]);
   }
 
   private async mostrarToast(message: string) {

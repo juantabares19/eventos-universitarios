@@ -30,7 +30,9 @@
 
   <!-- Lista de eventos -->
   <ion-list *ngIf="!cargando && eventosFiltrados.length > 0">
-    <ion-card *ngFor="let evento of eventosFiltrados" class="evento-card">
+    <ion-card *ngFor="let evento of eventosFiltrados"
+      class="evento-card"
+      (click)="verDetallesEvento(evento)">
 
       <ion-card-header>
         <ion-chip [color]="getColorCategoria(evento.categoria)" class="categoria-chip">
@@ -45,22 +47,32 @@
 
         <div class="evento-info">
           <div class="info-item">
-            <ion-icon name="calendar-outline" color="primary"></ion-icon>
+            <ion-icon name="calendar-outline"></ion-icon>
             <span>{{ evento.fecha }}</span>
           </div>
           <div class="info-item">
-            <ion-icon name="time-outline" color="primary"></ion-icon>
+            <ion-icon name="time-outline"></ion-icon>
             <span>{{ evento.hora }}</span>
           </div>
           <div class="info-item">
-            <ion-icon name="location-outline" color="primary"></ion-icon>
+            <ion-icon name="location-outline"></ion-icon>
             <span>{{ evento.lugar }}</span>
           </div>
           <div class="info-item">
-            <ion-icon name="people-outline" color="primary"></ion-icon>
+            <ion-icon name="people-outline"></ion-icon>
             <span>{{ evento.cupos_disponibles }} cupos disponibles</span>
           </div>
         </div>
+
+        <ion-button
+          expand="block"
+          shape="round"
+          class="btn-detalle"
+          (click)="verDetallesEvento(evento); $event.stopPropagation()">
+          <ion-icon name="information-circle-outline" slot="start"></ion-icon>
+          Ver detalle e inscribirse
+        </ion-button>
+
       </ion-card-content>
 
     </ion-card>

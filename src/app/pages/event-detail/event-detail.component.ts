@@ -33,21 +33,36 @@ export class EventDetailComponent implements OnInit {
     }
   }
 
-  cargarEvento(id: number) {
-    this.cargando = true;
-    this.eventosService.getEventoById(id).subscribe({
-      next: (response) => {
-        if (response.ok) {
-          this.evento = response.data;
+async cargarEvento(id: number) {
+  this.cargando = true;
+  const session = await this.storageService.getSession();
+
+  this.eventosService.getEventoById(id).subscribe({
+    next: async (response) => {
+      if (response.ok) {
+        this.evento = response.data;
+
+        // Verificar si ya está inscrito
+        if (session && session.isLoggedIn) {
+          this.eventosService.getInscripciones(session.user.id).subscribe({
+            next: (res) => {
+              if (res.ok) {
+                this.yaInscrito = res.data.some(
+                  (i: any) => i.evento_id === id
+                );
+              }
+            }
+          });
         }
-        this.cargando = false;
-      },
-      error: (error) => {
-        console.error('Error al cargar evento:', error);
-        this.mostrarToast('Error al cargar el evento');
-        this.cargando = false;
       }
-    });
+      this.cargando = false;
+    },
+    error: (error) => {
+      console.error('Error al cargar evento:', error);
+      this.mostrarToast('Error al cargar el evento');
+      this.cargando = false;
+    }
+  });
   }
 
   async inscribirse() {
@@ -92,7 +107,7 @@ export class EventDetailComponent implements OnInit {
   }
 
   volver() {
-    this.router.navigate(['/pages/eventos']);
+    this.router.navigate(['/pages/tabs/eventos']);
   }
 
   private async mostrarToast(message: string) {
