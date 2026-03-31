@@ -1,0 +1,176 @@
+ion-content.cal-content {
+  --background: #f4f6fb;
+}
+
+.cal-toolbar {
+  --background: linear-gradient(90deg, #2f3fae, #4a62f0);
+}
+
+.mes-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 8px 8px;
+  background: white;
+
+  .mes-titulo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #24327d;
+  }
+
+  .nav-btn {
+    --color: #2f3fae;
+  }
+}
+
+.semana-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: white;
+  padding: 4px 0 8px;
+  border-bottom: 1px solid rgba(74, 98, 240, 0.1);
+
+  .nombre-dia {
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #2f3fae;
+  }
+}
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: white;
+  padding: 8px 4px 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(50, 76, 219, 0.08);
+
+  .cal-dia {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 2px;
+    min-height: 44px;
+    cursor: pointer;
+    border-radius: 10px;
+    position: relative;
+    transition: background 0.2s;
+
+    &.vacio { cursor: default; }
+
+    &.hoy .num-dia {
+      background: linear-gradient(135deg, #2f3fae, #4a62f0);
+      color: white;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    &.seleccionado {
+      background: rgba(74, 98, 240, 0.12);
+    }
+
+    .num-dia {
+      font-size: 0.88rem;
+      color: #1f2d6b;
+      font-weight: 500;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .punto-evento {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4a62f0;
+      margin-top: 2px;
+    }
+
+    &.con-evento:not(.hoy) .num-dia {
+      color: #2f3fae;
+      font-weight: 700;
+    }
+  }
+}
+
+.eventos-dia {
+  padding: 0 12px 24px;
+
+  .eventos-dia-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: #24327d;
+    font-size: 0.95rem;
+  }
+
+  .sin-eventos {
+    text-align: center;
+    padding: 24px;
+    color: #888;
+
+    p { margin-top: 8px; font-size: 0.9rem; }
+  }
+
+  .evento-item {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 14px;
+    margin-bottom: 10px;
+    padding: 14px 12px;
+    box-shadow: 0 2px 8px rgba(50, 76, 219, 0.08);
+    cursor: pointer;
+    gap: 12px;
+
+    .evento-item-left {
+      width: 4px;
+      height: 40px;
+      border-radius: 4px;
+      flex-shrink: 0;
+
+      &.borde-académico  { background: #2f3fae; }
+      &.borde-cultural   { background: #9c27b0; }
+      &.borde-deportes   { background: #2e7d32; }
+      &.borde-tecnología { background: #e65100; }
+      &.borde-otro       { background: #888; }
+    }
+
+    .evento-item-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .evento-item-titulo {
+        font-size: 0.92rem;
+        font-weight: 700;
+        color: #1f2d6b;
+      }
+
+      .evento-item-hora {
+        font-size: 0.78rem;
+        color: #666;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        ion-icon { font-size: 13px; }
+      }
+    }
+
+    .evento-item-arrow { font-size: 16px; }
+  }
+}
