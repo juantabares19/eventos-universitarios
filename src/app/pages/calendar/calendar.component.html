@@ -1,3 +1,76 @@
-<p>
-  calendar works!
-</p>
+<ion-header>
+  <ion-toolbar color="primary" class="cal-toolbar">
+    <ion-title class="ion-text-center">Calendario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="cal-content">
+
+  <!-- Navegación mes -->
+  <div class="mes-nav">
+    <ion-button fill="clear" (click)="mesAnterior()" class="nav-btn">
+      <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
+    </ion-button>
+    <span class="mes-titulo">{{ nombreMesActual }} {{ anioActual }}</span>
+    <ion-button fill="clear" (click)="mesSiguiente()" class="nav-btn">
+      <ion-icon name="chevron-forward-outline" slot="icon-only"></ion-icon>
+    </ion-button>
+  </div>
+
+  <!-- Encabezado días semana -->
+  <div class="semana-header">
+    <span *ngFor="let nombre of nombresDias" class="nombre-dia">{{ nombre }}</span>
+  </div>
+
+  <!-- Grid calendario -->
+  <div class="cal-grid">
+    <div
+      *ngFor="let dia of diasDelMes"
+      class="cal-dia"
+      [class.vacio]="!dia"
+      [class.hoy]="dia && esHoy(dia)"
+      [class.seleccionado]="dia && esDiaSeleccionado(dia)"
+      [class.con-evento]="dia && tieneEventos(dia)"
+      (click)="seleccionarDia(dia)">
+
+      <span *ngIf="dia" class="num-dia">{{ dia }}</span>
+      <span *ngIf="dia && tieneEventos(dia)" class="punto-evento"></span>
+
+    </div>
+  </div>
+
+  <!-- Eventos del día seleccionado -->
+  <div class="eventos-dia" *ngIf="diaSeleccionado">
+
+    <div class="eventos-dia-header" *ngIf="eventosDiaSeleccionado.length > 0">
+      <ion-icon name="calendar-outline" color="primary"></ion-icon>
+      <span>Eventos del día</span>
+    </div>
+
+    <div class="sin-eventos" *ngIf="eventosDiaSeleccionado.length === 0">
+      <ion-icon name="close-circle-outline" color="medium"></ion-icon>
+      <p>No hay eventos este día</p>
+    </div>
+
+    <div
+      *ngFor="let evento of eventosDiaSeleccionado"
+      class="evento-item"
+      (click)="irAEventos()">
+
+      <div class="evento-item-left" [ngClass]="'borde-' + evento.categoria.toLowerCase()"></div>
+
+      <div class="evento-item-info">
+        <span class="evento-item-titulo">{{ evento.titulo }}</span>
+        <span class="evento-item-hora">
+          <ion-icon name="time-outline"></ion-icon>
+          {{ evento.hora }} — {{ evento.lugar }}
+        </span>
+      </div>
+
+      <ion-icon name="chevron-forward-outline" class="evento-item-arrow" color="medium"></ion-icon>
+
+    </div>
+
+  </div>
+
+</ion-content>
