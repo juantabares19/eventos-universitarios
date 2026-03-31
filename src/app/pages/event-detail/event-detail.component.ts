@@ -16,6 +16,7 @@ export class EventDetailComponent implements OnInit {
   cargando: boolean = true;
   inscribiendo: boolean = false;
   yaInscrito: boolean = false;
+  eventoId: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,40 +30,47 @@ export class EventDetailComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.cargarEvento(Number(id));
+      this.eventoId = Number(id);
     }
   }
 
-async cargarEvento(id: number) {
-  this.cargando = true;
-  const session = await this.storageService.getSession();
-
-  this.eventosService.getEventoById(id).subscribe({
-    next: async (response) => {
-      if (response.ok) {
-        this.evento = response.data;
-
-        // Verificar si ya está inscrito
-        if (session && session.isLoggedIn) {
-          this.eventosService.getInscripciones(session.user.id).subscribe({
-            next: (res) => {
-              if (res.ok) {
-                this.yaInscrito = res.data.some(
-                  (i: any) => i.evento_id === id
-                );
-              }
-            }
-          });
-        }
-      }
-      this.cargando = false;
-    },
-    error: (error) => {
-      console.error('Error al cargar evento:', error);
-      this.mostrarToast('Error al cargar el evento');
-      this.cargando = false;
+  // Se ejecuta CADA VEZ que entras a la pantalla
+  ionViewWillEnter() {
+    if (this.eventoId) {
+      this.cargarEvento(this.eventoId);
     }
-  });
+  }
+
+  async cargarEvento(id: number) {
+    this.cargando = true;
+    this.yaInscrito = false;
+    const session = await this.storageService.getSession();
+
+    this.eventosService.getEventoById(id).subscribe({
+      next: async (response) => {
+        if (response.ok) {
+          this.evento = response.data;
+
+          if (session && session.isLoggedIn) {
+            this.eventosService.getInscripciones(session.user.id).subscribe({
+              next: (res) => {
+                if (res.ok) {
+                  this.yaInscrito = res.data.some(
+                    (i: any) => i.evento_id === id
+                  );
+                }
+              }
+            });
+          }
+        }
+        this.cargando = false;
+      },
+      error: (error) => {
+        console.error('Error al cargar evento:', error);
+        this.mostrarToast('Error al cargar el evento');
+        this.cargando = false;
+      }
+    });
   }
 
   async inscribirse() {
@@ -102,6 +110,35 @@ async cargarEvento(id: number) {
         await loading.dismiss();
         const msg = error.error?.message || 'Error al inscribirse';
         this.mostrarToast(msg);
+      }
+    });
+  }
+
+  async cancelarInscripcion() {
+    const session = await this.storageService.getSession();
+    if (!session || !session.isLoggedIn || !this.evento) return;
+
+    const loading = await this.loadingCtrl.create({
+      message: 'Cancelando inscripción...'
+    });
+    await loading.present();
+
+    this.eventosService.cancelarInscripcion(this.evento.id, session.user.id).subscribe({
+      next: async (response) => {
+        await loading.dismiss();
+        if (response.ok) {
+          this.yaInscrito = false;
+          this.mostrarToast('Inscripción cancelada');
+          if (this.evento) {
+            this.evento.cupos_disponibles++;
+          }
+        } else {
+          this.mostrarToast(response.message || 'Error al cancelar');
+        }
+      },
+      error: async (error) => {
+        await loading.dismiss();
+        this.mostrarToast('Error al cancelar la inscripción');
       }
     });
   }

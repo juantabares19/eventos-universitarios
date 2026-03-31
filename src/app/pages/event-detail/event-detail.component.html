@@ -34,7 +34,7 @@
       <ion-card-content>
 
         <div class="info-item">
-          <ion-icon name="calendar-outline" color="primary"></ion-icon>
+          <ion-icon name="calendar-outline"></ion-icon>
           <div>
             <p class="info-label">Fecha</p>
             <p class="info-value">{{ evento.fecha }}</p>
@@ -42,7 +42,7 @@
         </div>
 
         <div class="info-item">
-          <ion-icon name="time-outline" color="primary"></ion-icon>
+          <ion-icon name="time-outline"></ion-icon>
           <div>
             <p class="info-label">Hora</p>
             <p class="info-value">{{ evento.hora }}</p>
@@ -50,7 +50,7 @@
         </div>
 
         <div class="info-item">
-          <ion-icon name="location-outline" color="primary"></ion-icon>
+          <ion-icon name="location-outline"></ion-icon>
           <div>
             <p class="info-label">Lugar</p>
             <p class="info-value">{{ evento.lugar }}</p>
@@ -58,7 +58,7 @@
         </div>
 
         <div class="info-item">
-          <ion-icon name="people-outline" color="primary"></ion-icon>
+          <ion-icon name="people-outline"></ion-icon>
           <div>
             <p class="info-label">Cupos disponibles</p>
             <p class="info-value">{{ evento.cupos_disponibles }} de {{ evento.cupos_totales }}</p>
@@ -78,16 +78,36 @@
       </ion-card-content>
     </ion-card>
 
-    <!-- Botón inscripción -->
+    <!-- Botones inscripción -->
     <div class="btn-container">
+
+      <!-- Si NO está inscrito -->
       <ion-button
+        *ngIf="!yaInscrito"
         expand="block"
         shape="round"
-        [disabled]="yaInscrito || evento.cupos_disponibles === 0 || inscribiendo"
+        [disabled]="evento.cupos_disponibles === 0 || inscribiendo"
         (click)="inscribirse()">
         <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
-        {{ yaInscrito ? 'Ya estás inscrito' : evento.cupos_disponibles === 0 ? 'Sin cupos' : 'Inscribirse' }}
+        {{ evento.cupos_disponibles === 0 ? 'Sin cupos' : 'Inscribirse' }}
       </ion-button>
+
+      <!-- Si YA está inscrito -->
+      <div *ngIf="yaInscrito" class="inscrito-container">
+        <div class="inscrito-badge">
+          <ion-icon name="checkmark-circle" color="success"></ion-icon>
+          <span>Ya estás inscrito en este evento</span>
+        </div>
+        <ion-button
+          expand="block"
+          shape="round"
+          class="btn-cancelar"
+          (click)="cancelarInscripcion()">
+          <ion-icon name="close-circle-outline" slot="start"></ion-icon>
+          Cancelar inscripción
+        </ion-button>
+      </div>
+
     </div>
 
   </div>

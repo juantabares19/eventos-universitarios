@@ -22,7 +22,10 @@ export class MyEventsComponent implements OnInit {
     private router: Router
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {}
+
+  // Se ejecuta cada vez que entras a la tab
+  async ionViewWillEnter() {
     await this.cargarInscripciones();
   }
 

@@ -50,14 +50,14 @@ ion-list {
     margin: 0;
   }
 
-    ion-button {
-        margin-top: 8px;
-        --background: linear-gradient(90deg, #2f3fae, #4a62f0);
-        --border-radius: 999px;
-        --color: white;
-        font-weight: 600;
-        text-transform: none;
-    }
+  ion-button {
+    margin-top: 8px;
+    --background: linear-gradient(90deg, #2f3fae, #4a62f0);
+    --border-radius: 999px;
+    --color: white;
+    font-weight: 600;
+    text-transform: none;
+  }
 }
 
 .inscripcion-card {
@@ -75,12 +75,31 @@ ion-list {
     font-size: 16px;
     font-weight: 700;
     color: #24327d;
-    margin-top: 6px;
+    margin-top: 10px;
   }
 }
 
-.estado-chip {
-  margin-bottom: 6px;
+.estado-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(90deg, #2f3fae, #4a62f0);
+  padding: 8px 16px;
+  border-radius: 12px;
+  width: fit-content;
+  box-shadow: 0 4px 12px rgba(50, 76, 219, 0.3);
+
+  ion-icon {
+    font-size: 18px;
+    color: white;
+  }
+
+  span {
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.3px;
+  }
 }
 
 .info-item {

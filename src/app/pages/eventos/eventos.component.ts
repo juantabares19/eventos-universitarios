@@ -22,10 +22,12 @@ export class EventosComponent implements OnInit {
     private eventosService: EventosService,
     private toastCtrl: ToastController,
     private router: Router
-    
   ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  // Se ejecuta cada vez que entras al tab de inicio
+  ionViewWillEnter() {
     this.cargarEventos();
   }
 
@@ -67,8 +69,7 @@ export class EventosComponent implements OnInit {
   }
 
   verDetallesEvento(evento: Evento) {
-  console.log('ID evento:', evento.id); // para probar
-  this.router.navigate(['/pages/event-detail', evento.id]);
+    this.router.navigate(['/pages/event-detail', evento.id]);
   }
 
   private async mostrarToast(message: string) {

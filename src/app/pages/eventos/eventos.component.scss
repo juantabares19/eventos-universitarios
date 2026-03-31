@@ -8,6 +8,11 @@ ion-toolbar {
   box-shadow: 0 2px 10px rgba(50, 76, 219, 0.22);
 }
 
+ion-list {
+  background: transparent;
+  --background: transparent;
+}
+
 .categorias-container {
   display: flex;
   flex-wrap: wrap;
@@ -102,9 +107,4 @@ ion-chip {
   font-size: 13px;
   text-transform: none;
   height: 40px;
-}
-
-ion-list {
-  background: transparent;
-  --background: transparent;
 }

@@ -72,4 +72,8 @@ export class EventosService {
   getFavoritos(usuarioId: string): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(`${this.apiUrl}/favoritos/${usuarioId}`);
   }
+
+  cancelarInscripcion(eventoId: number, usuarioId: string): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(`${this.apiUrl}/inscripciones/${eventoId}/${usuarioId}`);
+  }
 }

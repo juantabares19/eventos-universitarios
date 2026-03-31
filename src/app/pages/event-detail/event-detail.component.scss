@@ -109,6 +109,49 @@ ion-toolbar {
   }
 }
 
+.inscrito-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.inscrito-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 20px;
+  background: linear-gradient(90deg, #2f3fae, #4a62f0);
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(50, 76, 219, 0.4);
+
+  ion-icon {
+    font-size: 24px;
+    color: white;
+  }
+
+  span {
+    font-size: 15px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.3px;
+  }
+}
+
+.btn-cancelar {
+  --background: transparent;
+  --color: #c62828;
+  --border-color: #c62828;
+  --border-width: 1.5px;
+  --border-style: solid;
+  --border-radius: 999px;
+  --box-shadow: none;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: none;
+  height: 44px;
+}
+
 .empty-container {
   display: flex;
   flex-direction: column;

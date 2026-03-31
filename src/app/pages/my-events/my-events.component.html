@@ -30,10 +30,10 @@
       (click)="verDetalle(inscripcion.evento_id)">
 
       <ion-card-header>
-        <ion-chip color="success" class="estado-chip">
-          <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
-          Inscrito
-        </ion-chip>
+        <div class="estado-badge">
+          <ion-icon name="checkmark-circle"></ion-icon>
+          <span>Inscrito</span>
+        </div>
         <ion-card-title>{{ inscripcion.titulo }}</ion-card-title>
       </ion-card-header>
 
@@ -55,7 +55,7 @@
           <span>{{ inscripcion.categoria }}</span>
         </div>
         <div class="info-item">
-          <ion-icon name="time-outline"></ion-icon>
+          <ion-icon name="calendar-number-outline"></ion-icon>
           <span>Inscrito el {{ inscripcion.fecha_inscripcion | date:'dd/MM/yyyy HH:mm' }}</span>
         </div>
       </ion-card-content>
