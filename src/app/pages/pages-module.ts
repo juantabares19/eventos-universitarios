@@ -23,8 +23,7 @@ import { MyEventsComponent } from './my-events/my-events.component';
   imports: [
     CommonModule,
     PagesRoutingModule,
-    IonicModule,
-    DatePipe
+    IonicModule
   ]
 })
 export class PagesModule { }

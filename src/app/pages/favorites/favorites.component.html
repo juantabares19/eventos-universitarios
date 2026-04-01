@@ -1,3 +1,66 @@
-<p>
-  favorites works!
-</p>
+<ion-header class="auth-header">
+  <ion-toolbar color="primary" class="auth-toolbar">
+    <ion-title class="ion-text-center">Favoritos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div *ngIf="cargando" class="loading-container">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p>Cargando favoritos...</p>
+  </div>
+
+  <div *ngIf="!cargando && favoritos.length === 0" class="empty-container">
+    <ion-icon name="heart-outline" size="large" color="medium"></ion-icon>
+    <p>No tienes favoritos aún</p>
+  </div>
+
+  <ion-list *ngIf="!cargando && favoritos.length > 0">
+    <ion-card *ngFor="let evento of favoritos" 
+    class="evento-card"
+    (click)="verDetalle(evento.evento_id)"
+    >
+
+      <ion-card-header>
+        <div class="header-top">
+          <ion-card-title>{{ evento.titulo }}</ion-card-title>
+
+          <ion-icon
+            name="heart"
+            color="danger"
+            class="heart-icon"
+            (click)="toggleFavorito(evento)">
+          </ion-icon>
+        </div>
+
+        <ion-card-subtitle>{{ evento.organizador }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p>{{ evento.descripcion }}</p>
+
+        <div class="evento-info">
+          <div class="info-item">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span>{{ evento.fecha }}</span>
+          </div>
+          <div class="info-item">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>{{ evento.hora }}</span>
+          </div>
+          <div class="info-item">
+            <ion-icon name="location-outline"></ion-icon>
+            <span>{{ evento.lugar }}</span>
+          </div>
+          <div class="info-item">
+            <ion-icon name="people-outline"></ion-icon>
+            <span>{{ evento.cupos_disponibles }} cupos disponibles</span>
+          </div>
+        </div>
+      </ion-card-content>
+
+    </ion-card>
+  </ion-list>
+
+</ion-content>
