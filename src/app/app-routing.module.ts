@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { authGuard } from './guards/auth-guard';
 
 const routes: Routes = [
   {
     path: 'auth',
-    loadChildren: () => import('./auth/auth-module').then( m => m.AuthModule)
+    loadChildren: () => import('./auth/auth-module').then(m => m.AuthModule)
   },
   {
     path: 'pages',
-    loadChildren: () => import('./pages/pages-module').then( m => m.PagesModule)
+    loadChildren: () => import('./pages/pages-module').then(m => m.PagesModule),
+    canActivate: [authGuard]
   },
   {
     path: '',
@@ -17,9 +19,8 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'auth/login' // Si la ruta no existe, vuelve al Login
+    redirectTo: 'auth/login'
   }
-
 ];
 
 @NgModule({
