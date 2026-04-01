@@ -108,3 +108,11 @@ ion-chip {
   text-transform: none;
   height: 40px;
 }
+.heart-icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 24px;
+  z-index: 10;
+  cursor: pointer;
+}

@@ -39,6 +39,12 @@
           {{ evento.categoria }}
         </ion-chip>
         <ion-card-title>{{ evento.titulo }}</ion-card-title>
+      <ion-icon
+        [name]="esFavorito(evento) ? 'heart' : 'heart-outline'"
+        color="danger"
+        class="heart-icon"
+        (click)="toggleFavorito(evento, $event)">
+      </ion-icon>
         <ion-card-subtitle>{{ evento.organizador }}</ion-card-subtitle>
       </ion-card-header>
 
