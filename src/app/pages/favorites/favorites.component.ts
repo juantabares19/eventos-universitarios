@@ -70,31 +70,32 @@ export class FavoritesComponent implements OnInit {
       }
     });
   }
+toggleFavorito(evento: any, ev?: Event) {
+  ev?.stopPropagation();
 
-  toggleFavorito(evento: any) {
-    if (!this.usuarioId) {
-      this.mostrarToast('Debes iniciar sesión');
-      return;
-    }
+  if (!this.usuarioId) {
+    this.mostrarToast('Debes iniciar sesión');
+    return;
+  }
 
-    this.eventosService.removeFavorito(evento.evento_id, this.usuarioId).subscribe({
-      next: async (response) => {
-        if (response.ok) {
-          this.favoritos = this.favoritos.filter(
-            fav => fav.evento_id !== evento.evento_id
-          );
-          await this.mostrarToast('Eliminado de favoritos');
-        }
-      },
-      error: async (error) => {
-        console.error('Error al eliminar favorito:', error);
-        await this.mostrarToast('Error al eliminar favorito');
+  this.eventosService.removeFavorito(evento.evento_id, this.usuarioId).subscribe({
+    next: async (response) => {
+      if (response.ok) {
+        this.favoritos = this.favoritos.filter(f => f.evento_id !== evento.evento_id);
+        await this.mostrarToast('Eliminado de favoritos');
       }
-    });
-  }
-    verDetalle(eventoId: number) {
-    this.router.navigate(['/pages/event-detail', eventoId]);
-  }
+    },
+    error: async (error) => {
+      console.error('Error al eliminar favorito:', error);
+      await this.mostrarToast('Error al eliminar favorito');
+    }
+  });
+}
+
+verDetalle(eventoId: number) {
+  this.router.navigate(['/pages/event-detail', eventoId]);
+}
+
 
   private async mostrarToast(message: string) {
     const toast = await this.toastCtrl.create({

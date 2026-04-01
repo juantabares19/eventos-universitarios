@@ -32,7 +32,13 @@
     <!-- Información -->
     <ion-card class="info-card">
       <ion-card-content>
-
+       <ion-icon
+       *ngIf="evento"
+        [name]="esFavorito(evento) ? 'heart' : 'heart-outline'"
+        color="danger"
+        class="heart-icon"
+        (click)="toggleFavorito(evento, $event)">
+      </ion-icon>
         <div class="info-item">
           <ion-icon name="calendar-outline"></ion-icon>
           <div>

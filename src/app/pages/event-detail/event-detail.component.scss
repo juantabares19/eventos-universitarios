@@ -161,3 +161,17 @@ ion-toolbar {
   gap: 12px;
   color: rgba(36, 50, 125, 0.72);
 }
+
+.heart-icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 26px;
+  color: #ff4d6d;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.heart-icon:active {
+  transform: scale(0.9);
+}

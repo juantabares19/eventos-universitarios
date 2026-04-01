@@ -17,6 +17,8 @@ export class EventDetailComponent implements OnInit {
   inscribiendo: boolean = false;
   yaInscrito: boolean = false;
   eventoId: number = 0;
+  usuarioId: string | null = null;
+  favoritosIds: number[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -34,8 +36,14 @@ export class EventDetailComponent implements OnInit {
     }
   }
 
-  // Se ejecuta CADA VEZ que entras a la pantalla
-  ionViewWillEnter() {
+  // Se ejecuta cada vez que entras a la vista
+  async ionViewWillEnter() {
+    await this.obtenerSesion();
+
+    if (this.usuarioId) {
+      this.cargarFavoritos();
+    }
+
     if (this.eventoId) {
       this.cargarEvento(this.eventoId);
     }
@@ -44,6 +52,7 @@ export class EventDetailComponent implements OnInit {
   async cargarEvento(id: number) {
     this.cargando = true;
     this.yaInscrito = false;
+
     const session = await this.storageService.getSession();
 
     this.eventosService.getEventoById(id).subscribe({
@@ -59,6 +68,9 @@ export class EventDetailComponent implements OnInit {
                     (i: any) => i.evento_id === id
                   );
                 }
+              },
+              error: (error) => {
+                console.error('Error al verificar inscripción:', error);
               }
             });
           }
@@ -145,6 +157,81 @@ export class EventDetailComponent implements OnInit {
 
   volver() {
     this.router.navigate(['/pages/tabs/eventos']);
+  }
+
+  async obtenerSesion() {
+    try {
+      const session = await this.storageService.getSession();
+      if (session?.isLoggedIn && session.user?.id) {
+        this.usuarioId = session.user.id;
+      } else {
+        this.usuarioId = null;
+      }
+    } catch (error) {
+      console.error('Error obteniendo sesión:', error);
+      this.usuarioId = null;
+    }
+  }
+
+  cargarFavoritos() {
+    if (!this.usuarioId) return;
+
+    this.eventosService.getFavoritos(this.usuarioId).subscribe({
+      next: (response) => {
+        if (response.ok) {
+          this.favoritosIds = (response.data || []).map((fav: any) => fav.evento_id);
+        }
+      },
+      error: (error) => {
+        console.error('Error al cargar favoritos:', error);
+      }
+    });
+  }
+
+  esFavorito(evento: Evento): boolean {
+    return this.favoritosIds.includes(evento.id);
+  }
+
+  toggleFavorito(evento: Evento, ev?: Event) {
+    ev?.stopPropagation();
+
+    if (!this.usuarioId) {
+      this.mostrarToast('Debes iniciar sesión');
+      this.router.navigate(['/auth/login']);
+      return;
+    }
+
+    if (this.esFavorito(evento)) {
+      this.eventosService.removeFavorito(evento.id, this.usuarioId).subscribe({
+        next: async (response) => {
+          if (response.ok) {
+            this.favoritosIds = this.favoritosIds.filter(id => id !== evento.id);
+            await this.mostrarToast('Eliminado de favoritos');
+          } else {
+            await this.mostrarToast(response.message || 'No se pudo eliminar de favoritos');
+          }
+        },
+        error: async (error) => {
+          console.error('Error al eliminar favorito:', error);
+          await this.mostrarToast('Error al eliminar de favoritos');
+        }
+      });
+    } else {
+      this.eventosService.addFavorito(evento.id, this.usuarioId).subscribe({
+        next: async (response) => {
+          if (response.ok) {
+            this.favoritosIds.push(evento.id);
+            await this.mostrarToast('Agregado a favoritos');
+          } else {
+            await this.mostrarToast(response.message || 'No se pudo agregar a favoritos');
+          }
+        },
+        error: async (error) => {
+          console.error('Error al agregar favorito:', error);
+          await this.mostrarToast('Error al agregar a favoritos');
+        }
+      });
+    }
   }
 
   private async mostrarToast(message: string) {

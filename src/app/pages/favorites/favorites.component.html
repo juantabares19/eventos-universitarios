@@ -12,15 +12,14 @@
   </div>
 
   <div *ngIf="!cargando && favoritos.length === 0" class="empty-container">
-    <ion-icon name="heart-outline" size="large" color="medium"></ion-icon>
     <p>No tienes favoritos aún</p>
   </div>
 
   <ion-list *ngIf="!cargando && favoritos.length > 0">
-    <ion-card *ngFor="let evento of favoritos" 
-    class="evento-card"
-    (click)="verDetalle(evento.evento_id)"
-    >
+    <ion-card
+      *ngFor="let evento of favoritos"
+      class="evento-card"
+      (click)="verDetalle(evento.evento_id)">
 
       <ion-card-header>
         <div class="header-top">
@@ -30,7 +29,7 @@
             name="heart"
             color="danger"
             class="heart-icon"
-            (click)="toggleFavorito(evento)">
+            (click)="toggleFavorito(evento, $event)">
           </ion-icon>
         </div>
 
