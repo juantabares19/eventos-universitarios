@@ -9,6 +9,8 @@ import { FavoritesComponent } from './favorites/favorites.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { EventDetailComponent } from './event-detail/event-detail.component';
 import { MyEventsComponent } from './my-events/my-events.component';
+import { HeaderAppComponent } from '../components/header-app/header-app.component';
+import { CerrarSesionComponent } from '../components/cerrar-sesion/cerrar-sesion.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { MyEventsComponent } from './my-events/my-events.component';
     CalendarComponent,
     FavoritesComponent,
     NotificationsComponent,
-    MyEventsComponent
+    MyEventsComponent,
+    HeaderAppComponent,
+    CerrarSesionComponent
   ],
   imports: [
     CommonModule,
