@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar color="primary" class="header-toolbar">
+    <ion-buttons slot="start" class="invisible-btn">
+      <ion-button fill="clear" disabled>
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title class="titulo-header">
+      {{ titulo }}
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="abrirPerfil($event)">
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
