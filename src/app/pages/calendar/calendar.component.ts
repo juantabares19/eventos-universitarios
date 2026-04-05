@@ -16,10 +16,21 @@ export class CalendarComponent implements OnInit {
   eventosDiaSeleccionado: Evento[] = [];
   diasDelMes: (number | null)[] = [];
 
+  // ── Selector de fecha ──
+  mostrarSelector: boolean = false;
+  mesSelector: number = 0;
+  anioSelector: number = new Date().getFullYear();
+
   nombresDias = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+
   nombresMeses = [
     'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
     'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+  ];
+
+  nombresMesesCortos = [
+    'ene', 'feb', 'mar', 'abr', 'may', 'jun',
+    'jul', 'ago', 'sept', 'oct', 'nov', 'dic'
   ];
 
   constructor(
@@ -76,10 +87,10 @@ export class CalendarComponent implements OnInit {
   }
 
   getFechaCompleta(dia: number): string {
-    const año = this.mesActual.getFullYear();
+    const anio = this.mesActual.getFullYear();
     const mes = String(this.mesActual.getMonth() + 1).padStart(2, '0');
     const diaStr = String(dia).padStart(2, '0');
-    return `${año}-${mes}-${diaStr}`;
+    return `${anio}-${mes}-${diaStr}`;
   }
 
   tieneEventos(dia: number): boolean {
@@ -107,13 +118,37 @@ export class CalendarComponent implements OnInit {
     return this.getFechaCompleta(dia) === this.diaSeleccionado;
   }
 
-  irAEventos() {
-    this.router.navigate(['/pages/tabs/eventos']);
+  irADetalle(eventoId: number) {
+    this.router.navigate(['/pages/event-detail', eventoId]);
+  }
+
+  // ── Métodos del selector de fecha ──
+
+  abrirSelectorFecha() {
+    this.mesSelector = this.mesActual.getMonth();
+    this.anioSelector = this.mesActual.getFullYear();
+    this.mostrarSelector = true;
+  }
+
+  cerrarSelector() {
+    this.mostrarSelector = false;
+  }
+
+  seleccionarMes(mes: number) {
+    this.mesSelector = mes;
+  }
+
+  confirmarFecha() {
+    this.mesActual = new Date(this.anioSelector, this.mesSelector, 1);
+    this.diaSeleccionado = null;
+    this.eventosDiaSeleccionado = [];
+    this.generarCalendario();
+    this.mostrarSelector = false;
   }
 
   get nombreMesActual(): string {
     return this.nombresMeses[this.mesActual.getMonth()];
-  } 
+  }
 
   get anioActual(): number {
     return this.mesActual.getFullYear();
