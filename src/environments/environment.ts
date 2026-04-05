@@ -7,7 +7,7 @@ export const environment = {
   //Variable para desarrollo local
   apiKeyNews: '6e4e8764cd23467b8857e43a6a11b429',
   urlNews: 'https://newsapi.org/v2/everything',
-  apiUrl: 'http://localhost:3000/api'
+  apiUrl: 'http://192.168.1.10:3000/api'
 };
 
 
