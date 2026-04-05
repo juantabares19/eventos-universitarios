@@ -1,8 +1,4 @@
-<ion-header>
-  <ion-toolbar color="primary" class="cal-toolbar">
-    <ion-title class="ion-text-center">Calendario</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header-app titulo="Calendario">Calendario</app-header-app>
 
 <ion-content class="cal-content">
 
@@ -11,7 +7,10 @@
     <ion-button fill="clear" (click)="mesAnterior()" class="nav-btn">
       <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
     </ion-button>
-    <span class="mes-titulo">{{ nombreMesActual }} {{ anioActual }}</span>
+    <span class="mes-titulo" (click)="abrirSelectorFecha()">
+      {{ nombreMesActual }} {{ anioActual }}
+      <ion-icon name="chevron-down-outline" class="icono-dropdown"></ion-icon>
+    </span>
     <ion-button fill="clear" (click)="mesSiguiente()" class="nav-btn">
       <ion-icon name="chevron-forward-outline" slot="icon-only"></ion-icon>
     </ion-button>
@@ -55,7 +54,7 @@
     <div
       *ngFor="let evento of eventosDiaSeleccionado"
       class="evento-item"
-      (click)="irAEventos()">
+      (click)="irADetalle(evento.id)">
 
       <div class="evento-item-left" [ngClass]="'borde-' + evento.categoria.toLowerCase()"></div>
 
@@ -71,6 +70,40 @@
 
     </div>
 
+  </div>
+
+  <!-- Modal selector de mes/año -->
+  <div class="selector-overlay" *ngIf="mostrarSelector" (click)="cerrarSelector()">
+    <div class="selector-card" (click)="$event.stopPropagation()">
+
+      <!-- Selector de año -->
+      <div class="selector-anio">
+        <ion-button fill="clear" (click)="anioSelector = anioSelector - 1" class="nav-btn">
+          <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+        <span class="anio-texto">{{ anioSelector }}</span>
+        <ion-button fill="clear" (click)="anioSelector = anioSelector + 1" class="nav-btn">
+          <ion-icon name="chevron-forward-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+
+      <!-- Grid de meses -->
+      <div class="meses-grid">
+        <div
+          *ngFor="let mes of nombresMesesCortos; let i = index"
+          class="mes-item"
+          [class.mes-activo]="i === mesSelector"
+          (click)="seleccionarMes(i)">
+          {{ mes }}
+        </div>
+      </div>
+
+      <!-- Botón confirmar -->
+      <ion-button expand="block" shape="round" class="btn-confirmar" (click)="confirmarFecha()">
+        Confirmar
+      </ion-button>
+
+    </div>
   </div>
 
 </ion-content>

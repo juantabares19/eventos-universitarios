@@ -1,3 +1,63 @@
-<p>
-  notifications works!
-</p>
+<app-header-app titulo="Notificaciones">Notificaciones</app-header-app>
+
+<ion-content class="notif-content">
+
+  <!-- Resumen superior -->
+  <div class="resumen" *ngIf="notificaciones.length > 0">
+    <span *ngIf="totalNoLeidas > 0" class="badge-noLeidas">
+      {{ totalNoLeidas }} sin leer
+    </span>
+    <span *ngIf="totalNoLeidas === 0" class="todo-leido">
+      <ion-icon name="checkmark-done-outline"></ion-icon> Todo al día
+    </span>
+    <span class="limpiar" (click)="limpiarTodas()">Limpiar todo</span>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="cargando" class="loading-container">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p>Cargando notificaciones...</p>
+  </div>
+
+  <!-- Sin notificaciones -->
+  <div *ngIf="!cargando && notificaciones.length === 0" class="empty-container">
+    <ion-icon name="notifications-off-outline"></ion-icon>
+    <h3>Sin notificaciones</h3>
+    <p>Cuando te inscribas a eventos o haya novedades, aparecerán aquí.</p>
+  </div>
+
+  <!-- Lista de notificaciones -->
+  <div *ngIf="!cargando && notificaciones.length > 0" class="notif-lista">
+    <div
+      *ngFor="let notif of notificaciones"
+      class="notif-item"
+      [class.no-leida]="!notif.leida"
+      (click)="marcarLeida(notif)">
+
+      <!-- Ícono del tipo -->
+      <div class="notif-icono" [class]="'icono-' + notif.tipo">
+        <ion-icon [name]="getIcono(notif.tipo)"></ion-icon>
+      </div>
+
+      <!-- Contenido -->
+      <div class="notif-contenido">
+        <div class="notif-cabecera">
+          <span class="notif-titulo">{{ notif.titulo }}</span>
+          <span class="notif-punto" *ngIf="!notif.leida"></span>
+        </div>
+        <p class="notif-mensaje">{{ notif.mensaje }}</p>
+        <span class="notif-tiempo">{{ getTiempoRelativo(notif.fecha) }}</span>
+      </div>
+
+      <!-- Botón eliminar -->
+      <ion-button
+        fill="clear"
+        class="btn-eliminar"
+        (click)="$event.stopPropagation(); eliminarNotificacion(notif.id)">
+        <ion-icon name="close-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+
+    </div>
+  </div>
+
+</ion-content>
