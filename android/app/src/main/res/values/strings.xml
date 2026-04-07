@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">app-eventos-universitarios</string>
-    <string name="title_activity_main">app-eventos-universitarios</string>
+    <string name="app_name">Univentos</string>
+    <string name="title_activity_main">Univentos</string>
     <string name="package_name">io.ionic.starter</string>
     <string name="custom_url_scheme">io.ionic.starter</string>
 </resources>
